@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "jruby_streaming_update_solr_server"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Simple jruby interface into StreamingUpdateSolrServer}
+    gem.description = %Q{Some sugar on top of StreamingUpdateSolrServer for use within JRuby}
     gem.email = "bill@dueber.com"
     gem.homepage = "http://github.com/billdueber/jruby_streaming_update_solr_server"
     gem.authors = ["Bill Dueber"]
