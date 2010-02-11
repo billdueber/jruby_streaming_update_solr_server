@@ -1,6 +1,15 @@
+begin
+  jardir = File.join(File.dirname(__FILE__), '..', 'jars')
+  Dir.glob("#{jardir}/*.jar") do |x|
+    puts "Requiring #{x}"
+    require x
+  end  
+  include_class Java::OrgApacheSolrClientSolrjImpl::StreamingUpdateSolrServer
+  include_class Java::OrgApacheSolrCommon::SolrInputDocument
+rescue NameError  => e
+  raise LoadError.new "StreamingUpdateSolrServer only runs under jruby"
+end
 
-include_class Java::OrgApacheSolrClientSolrjImpl::StreamingUpdateSolrServer
-include_class Java::OrgApacheSolrCommon::SolrInputDocument
 
 class  StreamingUpdateSolrServer
   alias_method :susadd, :add 
