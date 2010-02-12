@@ -7,6 +7,17 @@ Documentation can be generated with yard via the 'rake yard' action.
 
 See the class files for more information, documentation, and examples.
 
+== What is this again?
+
+For users of Solr, there is a java class called StreamingUpdateSolrServer that allows you to easily 
+(and in a threaded manner) add documents (of class SolrInputDocument) 
+to a queue and have them automatically sent along to Solr by a user-configurable number of threads.
+
+These classes open up those Java classes to add some JRuby sugar and make it easy for you to
+construct Solr documents and send them to Solr all from within the comfort of the JRuby environment. 
+
+== WARNING: Program hangs on for 60 seconds!
+
 *WARNING*: After your program ends, the StreamingUpdateSolrServer object hangs on for a full minute, presumably
 the timeout of the underlying http client object. I haven't figure out how to change this yet.
 
