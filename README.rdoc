@@ -3,10 +3,12 @@
 Some syntactic sugar on top of the StreamingUpdateSolrServer as provided by the Apache
 Solr project, along with its most common argument, the SolrInputDocument. 
 
+Documentation can be generated with yard via the 'rake yard' action. 
+
 See the class files for more information, documentation, and examples.
 
 *WARNING*: After your program ends, the StreamingUpdateSolrServer object hangs on for a full minute, presumably
-the timeout of the underlying http client object. I haven't figure out how to fix this yet.
+the timeout of the underlying http client object. I haven't figure out how to change this yet.
 
 == Copyright
 
