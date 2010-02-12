@@ -4,8 +4,8 @@ end
 
 # Load .jar files locally if they haven't already been pulled in.
 begin
-  include_class Java::OrgApacheSolrClientSolrjImpl::StreamingUpdateSolrServer
-  include_class Java::OrgApacheSolrCommon::SolrInputDocument
+  include_class Java::org.apache.solr.client.solrj.impl.StreamingUpdateSolrServer
+  include_class Java::org.apache.solr.common.SolrInputDocument
 rescue NameError  => e
   jardir = File.join(File.dirname(__FILE__), '..', 'jars')
   Dir.glob("#{jardir}/*.jar") do |x|
