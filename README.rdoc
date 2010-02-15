@@ -3,9 +3,9 @@
 Some syntactic sugar on top of the StreamingUpdateSolrServer as provided by the Apache
 Solr project, along with its most common argument, the SolrInputDocument. 
 
-Documentation can be generated with yard via the 'rake yard' action. 
+Documentation can be generated with yard via the 'rake yard' action and available online at http://rdoc.info/projects/billdueber/jruby_streaming_update_solr_server 
 
-See the class files for more information, documentation, and examples.
+See the class files for more information, documentation, and examples. 
 
 == What is this again?
 
