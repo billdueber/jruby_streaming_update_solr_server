@@ -7,6 +7,34 @@ Documentation can be generated with yard via the 'rake yard' action and availabl
 
 See the class files for more information, documentation, and examples. 
 
+== Quick example
+
+    # @example Create and add a SolrInputDocument
+    #   url = 'http://solrmachine:port/solr' # URL to solr
+    #   queuesize = 10 # Size of producer cache 
+    #   threads = 2 # Number of consumer threads to push docs from queue to solr
+    #
+    #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
+    #
+    #   doc = SolrInputDocument.new
+    #   doc << ['title', 'This is the title']
+    #   doc << ['id', 1]
+    #   suss.add doc  # or suss << doc
+    #   # repeat as desired
+    #   suss.commit
+    #
+    # @example Create and add as a hash
+    #   # The "hash" just needs to be an object that responds to each_pair with field,value(s)
+    #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
+    #   doc = {}
+    #   doc['title'] = This is the title'
+    #   doc[:id] = 1 # Can also take symbols instead of strings if you like
+    #   doc[:author] = ['Bill', 'Mike']
+    #   suss << doc
+    #   # repeat as desired
+    #   suss.commit
+
+
 == What is this again?
 
 For users of Solr, there is a java class called StreamingUpdateSolrServer that allows you to easily 
