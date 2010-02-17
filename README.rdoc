@@ -18,6 +18,7 @@ See the class files for more information, documentation, and examples.
     #
     #   doc = SolrInputDocument.new
     #   doc << ['title', 'This is the title']
+    #   doc.add('title', "This is another title, added with 'add'")
     #   doc << ['id', 1]
     #   suss.add doc  # or suss << doc
     #   # repeat as desired

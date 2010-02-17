@@ -137,6 +137,7 @@ class SolrInputDocument
     self[field]
   end
   
+  alias_method :add, :addField
   
   # Get a list of the currently-set values for the passed field
   #
