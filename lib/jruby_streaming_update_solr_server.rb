@@ -127,17 +127,17 @@ class SolrInputDocument
     if field.is_a?(Symbol)
       field = field.to_s
     end
-    if value.respond_to?(:each)
-      value.each do |v|
-        self.addField(field, v)
-      end
-    else
-      self.addField(field, value)
-    end
+    self.addField(field, value)
     self[field]
   end
   
-  alias_method :add, :addField
+  def add(field, val)
+    if field.is_a?(Symbol)
+      field = field.to_s
+    end
+    self.addField(field, val)
+    self[field]
+  end  
   
   # Get a list of the currently-set values for the passed field
   #
