@@ -52,7 +52,7 @@ end
 class  StreamingUpdateSolrServer
 
   # Hang onto the java #add for internal use
-  alias_method :sussadd, :add 
+  alias_method :sussadd, :add
   
   # Add a document to the SUSS 
   # @param [SolrInputDocument, #each_pair] doc The SolrInputDocument or hash (or hash-like object
@@ -86,7 +86,7 @@ class  StreamingUpdateSolrServer
   
   def add doc
     if doc.is_a? org.apache.solr.common.SolrInputDocument
-      susadd doc
+      sussadd doc
     elsif doc.respond_to? :each_pair
       newdoc = SolrInputDocument.new
       doc.each_pair do |f,v|
