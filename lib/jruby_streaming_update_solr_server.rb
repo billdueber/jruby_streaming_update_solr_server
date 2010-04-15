@@ -154,7 +154,7 @@ class SolrInputDocument
     return nil if (f == nil)
     
     v = f.value
-    if v.class == Java::JavaUtil::ArrayList
+    if v.class == Java::JavaUtil::ArrayList or v.is_a? Array
       return v.to_a
     else 
       return [v]
