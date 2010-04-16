@@ -124,12 +124,8 @@ class SolrInputDocument
   def << fv
     field = fv[0]
     value = fv[1]
-    if field.is_a?(Symbol)
-      field = field.to_s
-    end
-    self.addField(field, value)
-    self[field]
-  end
+    self.add(field, value)
+   end
   
   def add(field, val)
     if field.is_a?(Symbol)
@@ -153,7 +149,7 @@ class SolrInputDocument
     f = self.get(field)
     return nil if (f == nil)
     
-    v = f.value
+    v = f.values
     if v.class == Java::JavaUtil::ArrayList
       return v.to_a
     else 
