@@ -127,13 +127,27 @@ class SolrInputDocument
     self.add(field, value)
    end
   
+  # Add a value to a field. Will add all elements of an array in turn
+  # @param [Symbol, String] field The field to add a value or values to
+  # @param [String, Numeric, #each] val The value or array-like of values to add.
+  # @return [Array<String,Numeric>] An array of the field's values after this addition
+  
   def add(field, val)
     if field.is_a?(Symbol)
       field = field.to_s
     end
-    self.addField(field, val)
+    if val.is_a? String or val.is_a? Numeric
+      self.addField(field, val)
+    else
+      begin
+        val.each {|v| self.add(field, v)}
+      rescue NoMethodError => e
+        raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
+      end
+    end
     self[field]
   end  
+  
   
   # Get a list of the currently-set values for the passed field
   #
@@ -148,13 +162,7 @@ class SolrInputDocument
     end
     f = self.get(field)
     return nil if (f == nil)
-    
-    v = f.values
-    if v.class == Java::JavaUtil::ArrayList
-      return v.to_a
-    else 
-      return [v]
-    end
+    return f.values.to_a
   end
   
   # Set the value(s) for the given field, destroying any values that were already in there
@@ -176,8 +184,8 @@ class SolrInputDocument
     if field.is_a?(Symbol)
       field = field.to_s
     end
-    self.setField(field, value)
-    self[field]
+    self.removeField(field)
+    self.add(field, value)
   end
   
   
@@ -207,6 +215,33 @@ class SolrInputDocument
       self << [k,v]
     end
   end
+  
+  # pretty-print
+  # @return A string representation of the fields and values
+  def to_s
+    return (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join('; ')
+  end
+
+
+  # Get the list of keys for this document
+  # @return [Array<String>] The list of keys
+  
+  def keys
+    return self.keySet.to_a
+  end
+
+  # Does this doc contain the given key?
+  # @param [Symbol, String] field The field whose presence you want to check
+  # @return [Boolean] True if the key is present
+  
+  def has_key? field
+    if field.is_a?(Symbol)
+      field = field.to_s
+    end
+    return self.containsKey(field)
+  end
+
+  
 end
 
 
