@@ -122,7 +122,7 @@ class SolrInputDocument
       self.addField(field, val)
     else
       begin
-        val.each {|v| self.add(field, v) unless v == nil}
+        val.each {|v| self.add(field, v)}
       rescue NoMethodError => e
         raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
       end
@@ -211,7 +211,7 @@ class SolrInputDocument
       raise ArgumentError, "Argument must respond to #each_pair"
     end
     h.each_pair do |k,v|
-      self.add(k, v) if v != nil
+      self.add(k, v)
     end
   end
   
