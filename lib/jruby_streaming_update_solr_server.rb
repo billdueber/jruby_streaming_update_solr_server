@@ -212,7 +212,7 @@ class SolrInputDocument
       raise ArgumentError, "Argument must respond to #each_pair"
     end
     h.each_pair do |k,v|
-      self.add(k, v)
+      self.add(k, v) if v != nil
     end
   end
   
