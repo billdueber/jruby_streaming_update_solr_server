@@ -47,12 +47,19 @@ to a queue and have them automatically sent along to Solr by a user-configurable
 These classes open up those Java classes to add some JRuby sugar and make it easy for you to
 construct Solr documents and send them to Solr all from within the comfort of the JRuby environment. 
 
+Note that you can use threach to multi-thread it all.
+
 == WARNING: Program hangs on for 60 seconds!
 
 *WARNING*: After your program ends, the StreamingUpdateSolrServer object hangs on for a full minute, presumably
 the timeout of the underlying http client object. I haven't figure out how to change this yet.
 
+== ToDo
 
+* Figure out how to use javabinary format (if it turns out to be a lot faster)
+* Figure out why the http client hangs on for so long
+* Modify SolrInputDocument.add to take a relevancy weight. 
+* More complete examples
 
 == Copyright
 
