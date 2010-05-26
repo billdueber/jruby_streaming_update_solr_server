@@ -219,7 +219,7 @@ class SolrInputDocument
   # pretty-print
   # @return A string representation of the fields and values
   def to_s
-    return (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join('; ')
+    return "SolrInputDocument #{self.object_id}\n  " + (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join("\n  ")
   end
 
 
