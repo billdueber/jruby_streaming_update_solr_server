@@ -108,25 +108,6 @@ end
 
 class SolrInputDocument
   
-  # Add a field and value(s) to the document. This is strictly additive; nothing is replaced or removed
-  #
-  # @param [Array<Symbol, String>] fv A two-element array of the form [field, value] or [field, [value1, value2, ...]]
-  # The field name (i.e., fv[0]) is the Solr field name as specified in schema.xml and
-  # must be either a string or a symbol
-  # @return [Array<String>] the list of current values for the field in fv[0]
-  #
-  # @example Add some fields
-  #  doc = SolrInputDocument.new
-  #  doc << ['title', 'Mein Kopf'] #=> ['Mein Kopf']
-  #  doc << ['title', 'My Head!']  #=> ['Mein Kopf', 'My Head!']
-  #  doc << ['author', ['Bill', 'Mike', 'Molly']] #=> ['Bill', 'Mike', 'Molly']
-  
-  def << fv
-    field = fv[0]
-    value = fv[1]
-    self.add(field, value)
-   end
-  
   # Add a value to a field. Will add all elements of an array in turn
   # @param [Symbol, String] field The field to add a value or values to
   # @param [String, Numeric, #each] val The value or array-like of values to add.
@@ -148,6 +129,23 @@ class SolrInputDocument
     self[field]
   end  
   
+  
+  # An alternate syntax for #add, which will usuall be preferred.
+  #
+  # @param [Array<Symbol, String>] fv A two-element array of the form [field, value] or [field, [value1, value2, ...]]
+  # @return [Array<String>] the list of current values for the field in fv[0]
+  #
+  # @example Add some fields
+  #  doc = SolrInputDocument.new
+  #  doc << ['title', 'Mein Kopf'] #=> ['Mein Kopf']
+  #  doc << ['title', 'My Head!']  #=> ['Mein Kopf', 'My Head!']
+  #  doc << ['author', ['Bill', 'Mike', 'Molly']] #=> ['Bill', 'Mike', 'Molly']
+  
+  def << fv
+    field = fv[0]
+    value = fv[1]
+    self.add(field, value)
+  end  
   
   # Get a list of the currently-set values for the passed field
   #
@@ -219,7 +217,7 @@ class SolrInputDocument
   # pretty-print
   # @return A string representation of the fields and values
   def to_s
-    return (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join('; ')
+    return "SolrInputDocument #{self.object_id}\n  " + (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join("\n  ")
   end
 
 

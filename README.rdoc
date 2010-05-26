@@ -17,21 +17,23 @@ See the class files for more information, documentation, and examples.
     #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
     #
     #   doc = SolrInputDocument.new
-    #   doc << ['title', 'This is the title']
-    #   doc.add('title', "This is another title, added with 'add'")
-    #   doc << ['id', 1]
+    #   doc.add 'title', 'This is the title'
+    #   doc.add :title, 'Another title' # symbols are automatically cast to strings for field name
+    #   doc << ['title', "This is yet another title, added with '<<'"]
+    #   doc.add 'id', 1
+    #   doc.add 'author', ['Mike', 'Bill', 'Molly'] # adds multiple values at once
     #   suss.add doc  # or suss << doc
     #   # repeat as desired
     #   suss.commit
     #
     # @example Create and add as a hash
-    #   # The "hash" just needs to be an object that responds to each_pair with field,value(s)
+    #   # The "hash" just needs to be an object that responds to each_pair with field,value(s) pairs
     #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
-    #   doc = {}
-    #   doc['title'] = This is the title'
-    #   doc[:id] = 1 # Can also take symbols instead of strings if you like
-    #   doc[:author] = ['Bill', 'Mike']
-    #   suss << doc
+    #   hash = {}
+    #   hash['title'] = This is the title'
+    #   hash[:id] = 1 # Can also take symbols instead of strings if you like
+    #   hash[:author] = ['Bill', 'Mike'] # Note that we can add multiple values at once 
+    #   suss << hash
     #   # repeat as desired
     #   suss.commit
 
@@ -45,10 +47,19 @@ to a queue and have them automatically sent along to Solr by a user-configurable
 These classes open up those Java classes to add some JRuby sugar and make it easy for you to
 construct Solr documents and send them to Solr all from within the comfort of the JRuby environment. 
 
+Note that you can use threach to multi-thread it all.
+
 == WARNING: Program hangs on for 60 seconds!
 
 *WARNING*: After your program ends, the StreamingUpdateSolrServer object hangs on for a full minute, presumably
 the timeout of the underlying http client object. I haven't figure out how to change this yet.
+
+== ToDo
+
+* Figure out how to use javabinary format (if it turns out to be a lot faster)
+* Figure out why the http client hangs on for so long
+* Modify SolrInputDocument.add to take a relevancy weight. 
+* More complete examples
 
 == Copyright
 
