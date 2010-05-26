@@ -114,6 +114,7 @@ class SolrInputDocument
   # @return [Array<String,Numeric>] An array of the field's values after this addition
   
   def add(field, val)
+    return if val == nil
     if field.is_a?(Symbol)
       field = field.to_s
     end
@@ -121,7 +122,7 @@ class SolrInputDocument
       self.addField(field, val)
     else
       begin
-        val.each {|v| self.add(field, v)}
+        val.each {|v| self.add(field, v) unless v == nil}
       rescue NoMethodError => e
         raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
       end
