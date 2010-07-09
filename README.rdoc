@@ -16,6 +16,13 @@ See the class files for more information, documentation, and examples.
     #
     #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
     #
+    #   # Explicitly pick to send javabin or XML. The former requires the line
+    #   # <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" />
+    #   # in you solrconfig.xml
+    #
+    #   suss.useJavabin!
+    #   # or suss.useXML! to get back to the default
+    #
     #   doc = SolrInputDocument.new
     #   doc.add 'title', 'This is the title'
     #   doc.add :title, 'Another title' # symbols are automatically cast to strings for field name
@@ -56,10 +63,14 @@ the timeout of the underlying http client object. I haven't figure out how to ch
 
 == ToDo
 
-* Figure out how to use javabinary format (if it turns out to be a lot faster)
 * Figure out why the http client hangs on for so long
 * Modify SolrInputDocument.add to take a relevancy weight. 
 * More complete examples
+
+
+=== CHANGES
+
+2010.07.09 Added #useJavabin!
 
 == Copyright
 

@@ -51,6 +51,16 @@ end
 
 class  StreamingUpdateSolrServer
 
+  # Send requests using the Javabin binary format instead of serializing to XML
+  # Requires /update/javabin to be defined in solrconfig.xml as 
+  # <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" />
+  
+  def useJavabin!
+    self.setRequestWriter Java::org.apache.solr.client.solrj.impl.BinaryRequestWriter.new
+  end
+  
+
+
   # Hang onto the java #add for internal use
   alias_method :sussadd, :add
   
@@ -107,7 +117,7 @@ end
 # @author Bill Dueber
 
 class SolrInputDocument
-  
+    
   # Add a value to a field. Will add all elements of an array in turn
   # @param [Symbol, String] field The field to add a value or values to
   # @param [String, Numeric, #each] val The value or array-like of values to add.
