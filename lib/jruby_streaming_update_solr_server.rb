@@ -225,6 +225,8 @@ class SolrInputDocument
     end
   end
   
+  alias_method :additive_merge!, :merge!
+  
   # pretty-print
   # @return A string representation of the fields and values
   def to_s
