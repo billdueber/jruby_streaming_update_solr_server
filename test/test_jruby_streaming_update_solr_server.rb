@@ -27,6 +27,16 @@ class TestJrubyStreamingUpdateSolrServer < Test::Unit::TestCase
     assert_equal ['Bill'], doc[:name]
   end
   
+  should "Allow additive_merge! as well" do
+    doc = SolrInputDocument.new
+    doc << [:id, 1]
+    h = {:id => 2, :name => 'Bill'}
+    doc.additive_merge! h
+    assert_equal [1,2], doc[:id]
+    assert_equal ['Bill'], doc[:name]
+    
+  end
+  
   should "Destroy existing items via []=" do
     doc = SolrInputDocument.new
     doc[:id] = 1
