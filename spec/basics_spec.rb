@@ -64,4 +64,8 @@ describe "SolrDocument" do
     @doc['name'].sort.should.equal ['Bill', 'Mike', 'Molly'].sort
   end
   
+  it "boosts" do
+    @doc.boost = 100
+    @doc.boost.should.equal 100
+  end
 end

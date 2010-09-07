@@ -118,8 +118,22 @@ end
 # SolrInputDocument is a wrapper around the {http://lucene.apache.org/solr/api/org/apache/solr/common/SolrInputDocument.html Java SolrInputDocument}. 
 # In addition to the methods below, you can call the java methods directly. Common ones are:
 # * `#clear` to empty the document
+# * `#size` to get the number of k-v pairs
 
 class SolrInputDocument
+  
+  
+  # Get the document boost for this document
+  # @return [Float] the current document boost
+  alias_method :boost, :getDocumentBoost
+  
+  # Set the document boost
+  # @param [Float] boost The boost for the document
+  # @return [Float] the new boost
+  
+  alias_method :boost=, :setDocumentBoost
+  
+  
     
   # Add a value to a field. Will add all elements of an array in turn
   # @param [String] field The field to add a value or values to
@@ -137,7 +151,7 @@ class SolrInputDocument
         raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
       end
     end
-    self[field]
+    return self[field]
   end  
   
   
@@ -188,7 +202,7 @@ class SolrInputDocument
   
   def []= field, value
     self.removeField(field)
-    self.add(field, value)
+    self.add(field, value) unless value.nil?
   end
   
   
@@ -235,6 +249,17 @@ class SolrInputDocument
     return self.keySet.to_a
   end
 
+  # Get the values as an array
+  # @return [Array<String] An array of all the values in all the keys (flattened out)
+  #
+  alias_method :oldvalues, :values
+  def values
+    rv = self.keys.map {|k| self[k]}
+    rv.uniq!
+    rv.flatten!
+    return rv
+  end
+
   # Does this doc contain the given key?
   # @param [String] field The field whose presence you want to check
   # @return [Boolean] True if the key is present
@@ -252,6 +277,16 @@ class SolrInputDocument
       return true if self[k].include? val
     end
     return false
+  end
+  
+  # Delete a key/value pair
+  # @param [String] key The key
+  # @return [Array<String>] The removed values (or nil)
+  
+  def delete key
+    rv = self[key]
+    self.removeField key
+    return rv
   end
   
 end
