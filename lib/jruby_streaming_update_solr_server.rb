@@ -135,6 +135,33 @@ class SolrInputDocument
   alias_method :boost=, :setDocumentBoost
   
   
+  # Boost a field. Does nothing if the field does not exist
+  # @param [String] field The name of the field
+  # @param [Float] boost The new boost
+  # @return [Float] the new boost
+  
+  def setFieldBoost field, boost
+    f = self.get(field)
+    if f
+      f.setBoost(boost)
+      return boost
+    else
+      return nil
+    end
+  end
+  
+  # get the field boost
+  # @param [String] field The field whose boost you want
+  # @return [Float] The boost
+  
+  def fieldBoost field
+    f = self.get(field)
+    if f
+      return f.getBoost
+    else
+      return nil
+    end
+  end
     
   # Add a value to a field. Will add all elements of an array in turn
   # @param [String] field The field to add a value or values to

@@ -25,7 +25,6 @@ See the class files for more information, documentation, and examples.
     #
     #   doc = SolrInputDocument.new
     #   doc.add 'title', 'This is the title'
-    #   doc.add :title, 'Another title' # symbols are automatically cast to strings for field name
     #   doc << ['title', "This is yet another title, added with '<<'"]
     #   doc.add 'id', 1
     #   doc.add 'author', ['Mike', 'Bill', 'Molly'] # adds multiple values at once
@@ -38,8 +37,7 @@ See the class files for more information, documentation, and examples.
     #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
     #   hash = {}
     #   hash['title'] = This is the title'
-    #   hash[:id] = 1 # Can also take symbols instead of strings if you like
-    #   hash[:author] = ['Bill', 'Mike'] # Note that we can add multiple values at once 
+    #   hash['author'] = ['Bill', 'Mike'] # Note that we can add multiple values at once 
     #   suss << hash
     #   # repeat as desired
     #   suss.commit
@@ -56,19 +54,19 @@ construct Solr documents and send them to Solr all from within the comfort of th
 
 Note that you can use threach to multi-thread it all.
 
-== WARNING: Program hangs on for 60 seconds!
-
-*WARNING*: After your program ends, the StreamingUpdateSolrServer object hangs on for a full minute, presumably
-the timeout of the underlying http client object. I haven't figure out how to change this yet.
 
 == ToDo
 
 * Figure out why the http client hangs on for so long
-* Modify SolrInputDocument.add to take a relevancy weight. 
 * More complete examples
 
 
 === CHANGES
+
+0.4.0 (2010.09.07)
+* Updated documentation
+* Added access to document-level boost
+* Added third parameter to `#add` for field-level boost
 
 2010.07.09 Added #useJavabin!
 

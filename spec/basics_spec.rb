@@ -64,8 +64,16 @@ describe "SolrDocument" do
     @doc['name'].sort.should.equal ['Bill', 'Mike', 'Molly'].sort
   end
   
-  it "boosts" do
+  it "boosts the doc" do
     @doc.boost = 100
     @doc.boost.should.equal 100
   end
+  
+  it "boosts a field" do
+    @doc.add('id', '1')
+    @doc.fieldBoost('id').should.equal 1.0
+    @doc.setFieldBoost('id', 100.0)
+    @doc.fieldBoost('id').should.equal 100.0
+  end
+  
 end
