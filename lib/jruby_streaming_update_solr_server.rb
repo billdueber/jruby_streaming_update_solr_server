@@ -119,6 +119,7 @@ end
 # In addition to the methods below, you can call the java methods directly. Common ones are:
 # * `#clear` to empty the document
 # * `#size` to get the number of k-v pairs
+# * `#boost` and `#boost=` to get and set the document-level boost
 
 class SolrInputDocument
   
@@ -138,9 +139,10 @@ class SolrInputDocument
   # Add a value to a field. Will add all elements of an array in turn
   # @param [String] field The field to add a value or values to
   # @param [String, Numeric, #each] val The value or array-like of values to add.
+  # @param [Float] boost The boost for this field
   # @return [Array<String,Numeric>] An array of the field's values after this addition
   
-  def add(field, val)
+  def add(field, val, boost=nil)
     return if val == nil
     if val.is_a? String or val.is_a? Numeric
       self.addField(field, val)
@@ -151,6 +153,7 @@ class SolrInputDocument
         raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
       end
     end
+    self.boost = boost if boost
     return self[field]
   end  
   
