@@ -63,12 +63,13 @@ Note that you can use threach to multi-thread it all.
 
 === CHANGES
 
-0.4.0 (2010.09.07)
+0.4.1 (2010.09.07)
 * Updated documentation
 * Added access to document-level boost via #boost and #boost=
 * Added access to field-level boost via #fieldBoost and #setFieldBoost
 * Added third parameter to `#add` for field-level boost
 * Added #values
+* Release new gem
 
 
 2010.07.09 Added #useJavabin!
