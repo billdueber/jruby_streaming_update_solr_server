@@ -67,7 +67,7 @@ class  StreamingUpdateSolrServer
   # Add a document to the SUSS 
   # @param [SolrInputDocument, #each_pair] doc The SolrInputDocument or hash (or hash-like object
   # that responds to #each_pair) to add. The latter must be of the form solrfield => value or
-  # solrfield => [list, of, values]. They keys can be either symbols or strings.
+  # solrfield => [list, of, values]. They keys must be strings.
   #
   # @example Create and add a SolrInputDocument
   #   url = 'http://solrmachine:port/solr' # URL to solr
@@ -88,8 +88,7 @@ class  StreamingUpdateSolrServer
   #   suss = StreamingUpdateSolrServer.new(url,queuesize,threads)
   #   doc = {}
   #   doc['title'] = This is the title'
-  #   doc[:id] = 1 # Can also take symbols instead of strings if you like
-  #   doc[:author] = ['Bill', 'Mike']
+  #   doc['author'] = ['Bill', 'Mike']
   #   suss << doc
   #   # repeat as desired
   #   suss.commit
@@ -116,18 +115,19 @@ end
 #
 # @author Bill Dueber
 
+# SolrInputDocument is a wrapper around the {http://lucene.apache.org/solr/api/org/apache/solr/common/SolrInputDocument.html Java SolrInputDocument}. 
+# In addition to the methods below, you can call the java methods directly. Common ones are:
+# * `#clear` to empty the document
+
 class SolrInputDocument
     
   # Add a value to a field. Will add all elements of an array in turn
-  # @param [Symbol, String] field The field to add a value or values to
+  # @param [String] field The field to add a value or values to
   # @param [String, Numeric, #each] val The value or array-like of values to add.
   # @return [Array<String,Numeric>] An array of the field's values after this addition
   
   def add(field, val)
     return if val == nil
-    if field.is_a?(Symbol)
-      field = field.to_s
-    end
     if val.is_a? String or val.is_a? Numeric
       self.addField(field, val)
     else
@@ -141,9 +141,9 @@ class SolrInputDocument
   end  
   
   
-  # An alternate syntax for #add, which will usuall be preferred.
+  # An alternate syntax for #add.
   #
-  # @param [Array<Symbol, String>] fv A two-element array of the form [field, value] or [field, [value1, value2, ...]]
+  # @param [Array<String>] fv A two-element array of Strings of the form [field, value] or [field, [value1, value2, ...]]
   # @return [Array<String>] the list of current values for the field in fv[0]
   #
   # @example Add some fields
@@ -162,13 +162,10 @@ class SolrInputDocument
   #
   # Note that this will always return either nil (not found) or an array, even of one element
   #
-  # @param [String, Symbol] field The field whose values you want (as String or Symbol)
+  # @param [String] field The field whose values you want (as String)
   # @return [Array<String>] An array of values (or nil on not found)
   #
   def [] field
-    if field.is_a?(Symbol)
-      field = field.to_s
-    end
     f = self.get(field)
     return nil if (f == nil)
     return f.values.to_a
@@ -178,21 +175,18 @@ class SolrInputDocument
   #
   # Note that this is destructive; see #<< to add multiple values to a field
   #
-  # @param [String, Symbol] field The solr field you're setting the value of
+  # @param [String] field The solr field you're setting the value of
   # @param [String, Array<String>] value The value or array of values to set
   # @return [Array<String>] The list of values (i.e., either +value+ or +[value]+)
   #
   # @example
   #  doc = SolrInputDocument.new
-  #  doc[:id] = 1 #=> [1]
-  #  doc[:author] = 'Mike' #=> ['Mike']
-  #  doc[:author] = 'Bill' #=> ['Bill']
-  #  doc[:author] #=> ['Bill']
+  #  doc['id'] = 1 #=> [1]
+  #  doc['author'] = 'Mike' #=> ['Mike']
+  #  doc['author'] = 'Bill' #=> ['Bill']
+  #  doc['author'] #=> ['Bill']
   
   def []= field, value
-    if field.is_a?(Symbol)
-      field = field.to_s
-    end
     self.removeField(field)
     self.add(field, value)
   end
@@ -206,15 +200,15 @@ class SolrInputDocument
   #
   # @example Merge a hash into an existing document
   #   doc = SolrInputDocument.new
-  #   doc << [:author, 'Bill']
+  #   doc << ['author', 'Bill']
   #   h = {}
   #   h['author'] = 'Mike'
   #   h['id'] = 1
-  #   h[:copies] = ['Grad reference', 'Long-term storage']
+  #   h['copies'] = ['Grad reference', 'Long-term storage']
   #   doc.merge! h
-  #   doc[:id] #=> 1
-  #   doc[:author] #=> ['Bill', 'Mike']
-  #   doc[:copies] #=> ['Grad reference', 'Long-term storage']
+  #   doc['id'] #=> 1
+  #   doc['author'] #=> ['Bill', 'Mike']
+  #   doc['copies'] #=> ['Grad reference', 'Long-term storage']
   
   def merge! h
     unless h.respond_to? :each_pair
@@ -242,16 +236,23 @@ class SolrInputDocument
   end
 
   # Does this doc contain the given key?
-  # @param [Symbol, String] field The field whose presence you want to check
+  # @param [String] field The field whose presence you want to check
   # @return [Boolean] True if the key is present
   
   def has_key? field
-    if field.is_a?(Symbol)
-      field = field.to_s
-    end
     return self.containsKey(field)
   end
 
+  # Does this doc have the given value?
+  # @param [String] value to look for
+  # @return [Boolean]
+  
+  def has_value? val
+    self.keys.each do |k|
+      return true if self[k].include? val
+    end
+    return false
+  end
   
 end
 
