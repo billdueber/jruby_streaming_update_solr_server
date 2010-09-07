@@ -74,6 +74,9 @@ describe "SolrDocument" do
     @doc.fieldBoost('id').should.equal 1.0
     @doc.setFieldBoost('id', 100.0)
     @doc.fieldBoost('id').should.equal 100.0
+    @doc.setFieldBoost('junk', 100.0).should.equal nil
+    @doc.fieldBoost('junk').should.equal nil
+    
   end
   
 end
