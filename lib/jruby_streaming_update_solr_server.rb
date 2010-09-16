@@ -165,23 +165,18 @@ class SolrInputDocument
     
   # Add a value to a field. Will add all elements of an array in turn
   # @param [String] field The field to add a value or values to
-  # @param [String, Numeric, #each] val The value or array-like of values to add.
+  # @param [String, Numeric, Array] val The value or array of values to add.
   # @param [Float] boost The boost for this field
-  # @return [Array<String,Numeric>] An array of the field's values after this addition
+  # @return [Undefined] 
   
   def add(field, val, boost=nil)
     return if val == nil
-    if val.is_a? String or val.is_a? Numeric
-      self.addField(field, val)
+    if val.is_a? Array
+      val.each {|v| self.add(field, v)}
     else
-      begin
-        val.each {|v| self.add(field, v)}
-      rescue NoMethodError => e
-        raise NoMethodError, "SolrInputDocument values must be a string, numeric, or an array-like (responds to #each) of same, not #{val.inspect}"
-      end
+      self.addField(field, val)
     end
     self.boost = boost if boost
-    return self[field]
   end  
   
   
@@ -197,9 +192,7 @@ class SolrInputDocument
   #  doc << ['author', ['Bill', 'Mike', 'Molly']] #=> ['Bill', 'Mike', 'Molly']
   
   def << fv
-    field = fv[0]
-    value = fv[1]
-    self.add(field, value)
+    self.add(fv[0], fv[1])
   end  
   
   # Get a list of the currently-set values for the passed field
@@ -221,7 +214,7 @@ class SolrInputDocument
   #
   # @param [String] field The solr field you're setting the value of
   # @param [String, Array<String>] value The value or array of values to set
-  # @return [Array<String>] The list of values (i.e., either +value+ or +[value]+)
+  # @return [Undefined]
   #
   # @example
   #  doc = SolrInputDocument.new

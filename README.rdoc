@@ -63,6 +63,11 @@ Note that you can use threach to multi-thread it all.
 
 === CHANGES
 
+0.5.0 (2010.09.16)
+* Removed a begin/rescue/end block that had been looking for simple argumenterrors for logging; speedup is
+  tremendous.
+* No longer allow "array-like" in #add; only allow actual Arrays. Again, speedup.
+
 0.4.1 (2010.09.07)
 * Updated documentation
 * Added access to document-level boost via #boost and #boost=
