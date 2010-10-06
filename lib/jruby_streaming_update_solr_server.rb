@@ -259,9 +259,13 @@ class SolrInputDocument
   alias_method :additive_merge!, :merge!
   
   # pretty-print
-  # @return A string representation of the fields and values
+  # @return A string representation of the fields and values. Presumes the id is named 'id'
   def to_s
-    return "SolrInputDocument #{self.object_id}\n  " + (self.keys.map {|k| "#{k} => #{self[k].inspect}"}).join("\n  ")
+    self.keys.sort.each do |k|
+      rv = []
+      rv << [self['id'][0], k, self[k].join(' ^ ')].join("\t")
+    end
+    return rv.join("\n")
   end
 
 
