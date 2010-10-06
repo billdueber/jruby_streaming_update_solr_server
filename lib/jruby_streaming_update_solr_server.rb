@@ -263,7 +263,7 @@ class SolrInputDocument
   def to_s
     rv = []
     self.keys.sort.each do |k|
-      rv << [self['id'][0], k, self[k].join(' ^ ')].join("\t")
+      rv << [self['id'][0], k, self[k].join('|')].join("\t")
     end
     return rv.join("\n")
   end
