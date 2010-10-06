@@ -261,8 +261,8 @@ class SolrInputDocument
   # pretty-print
   # @return A string representation of the fields and values. Presumes the id is named 'id'
   def to_s
+    rv = []
     self.keys.sort.each do |k|
-      rv = []
       rv << [self['id'][0], k, self[k].join(' ^ ')].join("\t")
     end
     return rv.join("\n")
