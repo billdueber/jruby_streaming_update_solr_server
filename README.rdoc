@@ -62,6 +62,8 @@ Note that you can use threach to multi-thread it all.
 
 
 === CHANGES
+0.5.2
+* More fixes to to_s
 
 0.5.1 (2010.10.05)
 * Changed the #to_s method to be a little easier to deal with
