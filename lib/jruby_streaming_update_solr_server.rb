@@ -171,6 +171,7 @@ class SolrInputDocument
   
   def add(field, val, boost=nil)
     return if val == nil
+    return if val == ''
     if val.is_a? Array
       val.each {|v| self.add(field, v)}
     else
