@@ -62,6 +62,9 @@ Note that you can use threach to multi-thread it all.
 
 
 === CHANGES
+0.6.0
+* Changed SolrInputDocument#add to ignore values that are the empty string in addition to nil
+
 0.5.2
 * More fixes to to_s
 

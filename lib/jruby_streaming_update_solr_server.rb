@@ -69,6 +69,8 @@ class  StreamingUpdateSolrServer
   # that responds to #each_pair) to add. The latter must be of the form solrfield => value or
   # solrfield => [list, of, values]. They keys must be strings.
   #
+  # Values of nil or the empty string are ignored.
+  #
   # @example Create and add a SolrInputDocument
   #   url = 'http://solrmachine:port/solr' # URL to solr
   #   queuesize = 10 # Size of producer cache 
